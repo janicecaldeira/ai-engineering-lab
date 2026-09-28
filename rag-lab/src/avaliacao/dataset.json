@@ -1,0 +1,142 @@
+[
+  {
+    "id": "nest-bootstrap",
+    "pergunta": "Qual comando gera um projeto NestJS novo seguindo o padrão do time, e o que ele traz por padrão?",
+    "categoria": "relevante",
+    "respostaEsperada": "`nest new <nome> --package-manager npm --strict` com o Nest CLI 12 gera NestJS 12 + TypeScript 6 + Vitest 4 + oxlint + Prettier.",
+    "fonteEsperada": "skills/nestjs-arquitetura/SKILL.md"
+  },
+  {
+    "id": "nest-organizacao-modulos",
+    "pergunta": "Como o time organiza os módulos de um serviço NestJS?",
+    "categoria": "relevante",
+    "respostaEsperada": "Um módulo por feature (ex. src/pedidos/, src/cobranca/), com controller, service, DTOs, entidades e testes juntos; infraestrutura compartilhada só em src/shared ou src/infra quando dois ou mais módulos usam de verdade.",
+    "fonteEsperada": "skills/nestjs-arquitetura/SKILL.md"
+  },
+  {
+    "id": "postgres-paginacao-cursor",
+    "pergunta": "Como fazer paginação estável numa lista que recebe inserções concorrentes?",
+    "categoria": "relevante",
+    "respostaEsperada": "Paginação por cursor (keyset), não por offset: cursor opaco (base64 do seq), custo constante por página; offset é O(offset) e pula ou duplica itens quando há inserções concorrentes.",
+    "fonteEsperada": "skills/postgres-modelagem/SKILL.md"
+  },
+  {
+    "id": "bullmq-idempotencia-job",
+    "pergunta": "O que torna o enfileiramento de um job idempotente no BullMQ, segundo o padrão do time?",
+    "categoria": "relevante",
+    "respostaEsperada": "O jobId derivado da chave de idempotência: reenviar a mesma mensagem com o mesmo jobId não cria um segundo job. É a segunda linha de defesa, depois da constraint única no banco.",
+    "fonteEsperada": "skills/redis-filas-tempo-real/SKILL.md"
+  },
+  {
+    "id": "bullmq-falha-persistente",
+    "pergunta": "O que fazer quando um job falha persistentemente numa fila BullMQ, depois de esgotar os retries?",
+    "categoria": "relevante",
+    "respostaEsperada": "Marcar o estado como failed, emitir evento para os clientes, e mover para uma fila dead-letter (ou manter no conjunto failed com endpoint/alerta) — o importante é ter dono e procedimento.",
+    "fonteEsperada": "skills/redis-filas-tempo-real/SKILL.md"
+  },
+  {
+    "id": "webhook-hmac",
+    "pergunta": "Como validar a assinatura de um webhook com segurança, segundo o padrão do time?",
+    "categoria": "relevante",
+    "respostaEsperada": "HMAC-SHA256 sobre o corpo bruto (rawBody), comparado em tempo constante com crypto.timingSafeEqual (nunca ===), com timestamp assinado pra rejeitar fora de uma janela de replay de 5 minutos, e dedupe por id do provedor no banco.",
+    "fonteEsperada": "skills/seguranca-api/SKILL.md"
+  },
+  {
+    "id": "testcontainers-setup",
+    "pergunta": "Como os testes de integração sobem Postgres e Redis reais, no padrão do time?",
+    "categoria": "relevante",
+    "respostaEsperada": "Via Testcontainers (PostgreSqlContainer, RedisContainer), registrados como globalSetup do Jest, subindo os containers uma vez por execução; o globalTeardown para os containers no final.",
+    "fonteEsperada": "skills/testes-integracao/SKILL.md"
+  },
+  {
+    "id": "argos-revisao-escopo",
+    "pergunta": "Quando a Argos revisa a correção de um código, o que ela aponta?",
+    "categoria": "relevante",
+    "respostaEsperada": "Só o que afeta correção, segurança ou requisito — não aponta estilo.",
+    "fonteEsperada": "agents/argos.md"
+  },
+  {
+    "id": "dedalo-abstracao",
+    "pergunta": "Quando o Dédalo decide introduzir uma abstração (porta + token) para uma dependência?",
+    "categoria": "relevante",
+    "respostaEsperada": "Só onde há mais de uma implementação plausível (ex. provedor de IA, repositório, gateway); sem abstração especulativa quando só existe uma implementação.",
+    "fonteEsperada": "agents/dedalo.md"
+  },
+  {
+    "id": "dedalo-idempotencia-banco",
+    "pergunta": "Como o Dédalo trata idempotência de trabalho assíncrono?",
+    "categoria": "relevante",
+    "respostaEsperada": "Idempotência em nível de banco, via constraint única — nunca só em memória; job id derivado da chave de idempotência para não duplicar turnos.",
+    "fonteEsperada": "agents/dedalo.md"
+  },
+  {
+    "id": "commit-checklist",
+    "pergunta": "O que a skill de commit confere antes de propor uma mensagem de commit?",
+    "categoria": "relevante",
+    "respostaEsperada": "Que nenhum .env, chave, token ou dump está no diff; que não há comentário ou JSDoc novo no código; que nenhum arquivo gerado indevido está versionado; e que o lint passa nos arquivos tocados.",
+    "fonteEsperada": "skills/commit/SKILL.md"
+  },
+  {
+    "id": "commit-formato-mensagem",
+    "pergunta": "Qual é o formato de mensagem de commit que o time usa?",
+    "categoria": "relevante",
+    "respostaEsperada": "`tipo(escopo): resumo no imperativo`, com um corpo curto explicando o porquê. Tipos possíveis: feat, fix, refactor, test, docs, chore, ci, build.",
+    "fonteEsperada": "skills/commit/SKILL.md"
+  },
+  {
+    "id": "checklist-entrega-paralelo",
+    "pergunta": "Quais personas rodam em paralelo no checklist de entrega, e o que cada uma confere?",
+    "categoria": "relevante",
+    "respostaEsperada": "Hefesto confere docker compose e health/SIGTERM/CI; Argos confere lint, suíte de testes e a matriz de requisitos; Hermes confere se os comandos do README funcionam e se as decisões estão justificadas.",
+    "fonteEsperada": "skills/checklist-entrega/SKILL.md"
+  },
+  {
+    "id": "bullmq-job-travado",
+    "pergunta": "O que acontece quando um job fica \"stalled\" (travado) numa fila BullMQ?",
+    "categoria": "relevante",
+    "respostaEsperada": "Com lockDuration maior que o pior caso do processamento, o job travado volta para a fila e é reprocessado — mais um motivo para o processador ser idempotente.",
+    "fonteEsperada": "skills/redis-filas-tempo-real/SKILL.md"
+  },
+  {
+    "id": "webhook-entrega-duplicada",
+    "pergunta": "Como uma entrega duplicada de webhook deve ser respondida pela API?",
+    "categoria": "relevante",
+    "respostaEsperada": "Com 200 idempotente — o provedor reenvia o webhook se receber um erro.",
+    "fonteEsperada": "skills/seguranca-api/SKILL.md"
+  },
+  {
+    "id": "fora-clima",
+    "pergunta": "Vai chover amanhã em São Paulo?",
+    "categoria": "fora-do-corpus",
+    "respostaEsperada": null,
+    "fonteEsperada": null
+  },
+  {
+    "id": "fora-futebol",
+    "pergunta": "Qual time ganhou a última Copa do Mundo de futebol?",
+    "categoria": "fora-do-corpus",
+    "respostaEsperada": null,
+    "fonteEsperada": null
+  },
+  {
+    "id": "fora-astronomia",
+    "pergunta": "Qual a distância entre a Terra e Júpiter em quilômetros?",
+    "categoria": "fora-do-corpus",
+    "respostaEsperada": null,
+    "fonteEsperada": null
+  },
+  {
+    "id": "fora-culinaria",
+    "pergunta": "Qual a receita de um bolo de cenoura com cobertura de chocolate?",
+    "categoria": "fora-do-corpus",
+    "respostaEsperada": null,
+    "fonteEsperada": null
+  },
+  {
+    "id": "fora-historia",
+    "pergunta": "Quem foi o primeiro presidente do Brasil?",
+    "categoria": "fora-do-corpus",
+    "respostaEsperada": null,
+    "fonteEsperada": null
+  }
+]

@@ -1,0 +1,32 @@
+{
+  "name": "rag-lab",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Projeto de aprendizado de RAG sobre o corpus de skills da equipe-dev, com stack 100% gratuita.",
+  "type": "module",
+  "engines": {
+    "node": ">=20.6.0"
+  },
+  "scripts": {
+    "ingerir": "tsx --env-file=.env src/cli/ingerir.ts",
+    "perguntar": "tsx --env-file=.env src/cli/perguntar.ts",
+    "avaliar": "tsx --env-file=.env src/cli/avaliar.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "node --import tsx --test src/**/*.test.ts"
+  },
+  "dependencies": {
+    "@huggingface/transformers": "^4.3.0",
+    "groq-sdk": "^1.6.0",
+    "pg": "^8.23.0",
+    "pgvector": "^0.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "@types/pg": "^8.11.0",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.0"
+  },
+  "allowScripts": {
+    "onnxruntime-node@1.30.0": true
+  }
+}
