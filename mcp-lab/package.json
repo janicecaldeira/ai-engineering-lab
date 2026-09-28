@@ -1,0 +1,26 @@
+{
+  "name": "mcp-lab",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Projeto de aprendizado do protocolo MCP: expoe o rag-lab (retrieval + geracao) como servidor MCP via stdio.",
+  "type": "module",
+  "engines": {
+    "node": ">=20.6.0"
+  },
+  "scripts": {
+    "start": "tsx --env-file=.env src/index.ts",
+    "inspector": "npx @modelcontextprotocol/inspector tsx --env-file=.env src/index.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "node --import tsx --test 'src/**/*.test.ts'"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "@types/pg": "^8.11.0",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.0"
+  }
+}
