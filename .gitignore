@@ -141,3 +141,7 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# macOS / Claude Code local
+.DS_Store
+.claude/settings.local.json

@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# Desativa o plugin equipe-dev (e, com --completo, typescript-lsp e security-guidance)
+# no projeto atual ou no diretorio passado.
+#   bin/desativar [/caminho/do/projeto] [--project] [--completo]
+set -euo pipefail
+export PATH="$HOME/.local/bin:$PATH"
+ESCOPO=local; COMPLETO=0; ALVO="$PWD"
+for arg in "$@"; do
+  case "$arg" in
+    --project)  ESCOPO=project ;;
+    --local)    ESCOPO=local ;;
+    --completo) COMPLETO=1 ;;
+    *)          ALVO="$(cd "$arg" && pwd)" ;;
+  esac
+done
+cd "$ALVO"
+claude plugin uninstall equipe-dev@janice-agent-skills --scope "$ESCOPO"
+if [ "$COMPLETO" = 1 ]; then
+  claude plugin uninstall security-guidance@claude-plugins-official --scope "$ESCOPO" || true
+  claude plugin uninstall typescript-lsp@claude-plugins-official --scope "$ESCOPO" || true
+fi

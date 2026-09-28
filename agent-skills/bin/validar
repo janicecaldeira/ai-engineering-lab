@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Valida o manifesto e os componentes do plugin, e lista o que sera carregado.
+set -euo pipefail
+export PATH="$HOME/.local/bin:$PATH"
+AQUI="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+claude plugin validate "$AQUI/plugins/equipe-dev" --strict
+echo
+echo "agents:";  ls "$AQUI/plugins/equipe-dev/agents"
+echo "skills:";  ls "$AQUI/plugins/equipe-dev/skills"

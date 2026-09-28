@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "equipe-dev",
+  "displayName": "Equipe Dev",
+  "description": "Equipe de desenvolvimento em personas da mitologia grega: Dedalo (arquiteto Node/TS/NestJS), Atena (produto/requisitos), Argos (testes/qualidade), Mnemosine (dados/Postgres), Hefesto (infra/Docker/CI/observabilidade), Hermes (documentacao), Iris (UI/UX de interfaces simples) + skills de arquitetura, Redis/filas/tempo real, Postgres, seguranca, infra, testes de integracao, interface web simples e workflows de entrega",
+  "version": "1.2.0",
+  "author": {
+    "name": "Janice Caldeira"
+  },
+  "keywords": [
+    "nestjs",
+    "typescript",
+    "node",
+    "postgres",
+    "redis",
+    "bullmq",
+    "docker",
+    "testes",
+    "requisitos",
+    "arquitetura"
+  ]
+}

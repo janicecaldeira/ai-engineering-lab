@@ -1,0 +1,11 @@
+{
+  "name": "janice-agent-skills",
+  "owner": { "name": "Janice Caldeira" },
+  "plugins": [
+    {
+      "name": "equipe-dev",
+      "source": "./plugins/equipe-dev",
+      "description": "Equipe de desenvolvimento: arquiteto Node/TypeScript/NestJS, produto/requisitos e testes/qualidade, com skills de apoio"
+    }
+  ]
+}

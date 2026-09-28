@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+# Ativa o plugin equipe-dev no projeto atual (ou no diretorio passado).
+#   bin/ativar                       -> escopo local  (.claude/settings.local.json, fora do git)
+#   bin/ativar --project             -> escopo project (.claude/settings.json, versionado)
+#   bin/ativar --completo            -> tambem ativa typescript-lsp e security-guidance (oficiais)
+#   bin/ativar /caminho/do/projeto [--project] [--completo]
+set -euo pipefail
+export PATH="$HOME/.local/bin:$HOME/.npm-global/bin:$PATH"
+
+AQUI="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+ESCOPO=local
+COMPLETO=0
+ALVO="$PWD"
+for arg in "$@"; do
+  case "$arg" in
+    --project)  ESCOPO=project ;;
+    --local)    ESCOPO=local ;;
+    --completo) COMPLETO=1 ;;
+    *)          ALVO="$(cd "$arg" && pwd)" ;;
+  esac
+done
+
+command -v claude >/dev/null || { echo "claude nao encontrado no PATH (esperado em ~/.local/bin/claude)" >&2; exit 1; }
+
+# 1. marketplaces registrados uma unica vez, em nivel de usuario
+MKTS="$(claude plugin marketplace list 2>/dev/null || true)"
+echo "$MKTS" | grep -q "janice-agent-skills"    || claude plugin marketplace add "$AQUI"
+if [ "$COMPLETO" = 1 ]; then
+  echo "$MKTS" | grep -q "claude-plugins-official" || claude plugin marketplace add anthropics/claude-plugins-official
+fi
+
+# 2. plugins habilitados no projeto alvo
+cd "$ALVO"
+claude plugin install equipe-dev@janice-agent-skills --scope "$ESCOPO"
+if [ "$COMPLETO" = 1 ]; then
+  claude plugin install security-guidance@claude-plugins-official --scope "$ESCOPO"
+  if command -v typescript-language-server >/dev/null; then
+    claude plugin install typescript-lsp@claude-plugins-official --scope "$ESCOPO"
+  else
+    echo "aviso: typescript-language-server nao esta no PATH; rode 'npm i -g typescript-language-server typescript' e ative typescript-lsp depois" >&2
+  fi
+fi
+
+echo
+echo "equipe-dev ativado em: $ALVO (escopo: $ESCOPO$( [ "$COMPLETO" = 1 ] && echo ', com typescript-lsp e security-guidance'))"
+echo "Na proxima sessao (ou apos /reload-plugins):"
+echo "  personas: @equipe-dev:dedalo (arquiteto)  @equipe-dev:atena (produto)  @equipe-dev:argos (qualidade)"
+echo "            @equipe-dev:mnemosine (dados)   @equipe-dev:hefesto (infra)  @equipe-dev:hermes (documentacao)"
+echo "  workflows: /equipe-dev:plano-de-entrega  /equipe-dev:feature  /equipe-dev:requisitos  /equipe-dev:plano-de-testes"
+echo "             /equipe-dev:revisao  /equipe-dev:commit  /equipe-dev:checklist-entrega"
